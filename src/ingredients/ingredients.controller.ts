@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateIngredientDto } from './dto/create-ingredient.dto';
 import { UpdateIngredientDto } from './dto/update-user-dto';
@@ -31,7 +31,7 @@ export class IngredientsController {
     return await this.ingredientsService.findById(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   async updateIngedient(
     @Param('id') id: string,
     @Body() updateIngedientDto: UpdateIngredientDto,
