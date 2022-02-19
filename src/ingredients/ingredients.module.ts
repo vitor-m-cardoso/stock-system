@@ -1,9 +1,14 @@
-import { Module } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+} from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { IngredientsController } from './ingredients.controller';
 import { IngredientsService } from './ingredients.service';
-
+import { isValidRequest } from './middlewares/ingredients.middleware';
 import { Ingredient, IngredientSchema } from './schemas/ingredient.schema';
 
 @Module({
@@ -17,4 +22,15 @@ import { Ingredient, IngredientSchema } from './schemas/ingredient.schema';
   controllers: [IngredientsController],
   providers: [IngredientsService],
 })
-export class IngredientsModule {}
+export class IngredientsModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(isValidRequest)
+      .exclude(
+        { path: 'ingredients', method: RequestMethod.GET },
+        { path: 'ingredients', method: RequestMethod.DELETE },
+        'ingredients/(.*)',
+      )
+      .forRoutes(IngredientsController);
+  }
+}
