@@ -67,7 +67,20 @@ export class IngredientsService {
 
   async removeIngredient(id: string) {
     await this.isValidId(id);
+    const deletedProduct = await this.ingredientModel
+      .deleteOne({ _id: id })
+      .exec();
+    const { deletedCount } = deletedProduct;
 
-    return await this.ingredientModel.deleteOne({ _id: id }).exec();
+    // condição criada apenas para retornar um output personalizado e mais visual.
+    if (deletedCount === 1) {
+      return {
+        success: 'Produto deletado com sucesso.',
+      };
+    } else {
+      return {
+        erro: 'Produto não existe no sistema.',
+      };
+    }
   }
 }
