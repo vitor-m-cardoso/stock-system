@@ -75,11 +75,11 @@ export class IngredientsService {
     // condição criada apenas para retornar um output personalizado e mais visual.
     if (deletedCount === 1) {
       return {
-        success: 'Produto deletado com sucesso.',
+        success: 'Ingrediente deletado com sucesso.',
       };
     } else {
       return {
-        erro: 'Produto não existe no sistema.',
+        erro: 'Ingrediente não existe no sistema.',
       };
     }
   }
