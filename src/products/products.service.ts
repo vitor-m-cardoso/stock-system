@@ -77,9 +77,13 @@ export class ProductsService {
         success: 'Produto deletado com sucesso.',
       };
     } else {
-      return {
-        erro: 'Produto não existe no sistema.',
-      };
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'Produto não existe no sistema.',
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 }
