@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { IngredientsModule } from './ingredients/ingredients.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   // ConfigModule importado para ser possivel utilizar variáveis de ambiente corretamente
@@ -14,6 +15,7 @@ import { IngredientsModule } from './ingredients/ingredients.module';
     ConfigModule.forRoot(),
     MongooseModule.forRoot('mongodb://localhost/StockSystem'),
     IngredientsModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
