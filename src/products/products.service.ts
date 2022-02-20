@@ -45,10 +45,10 @@ export class ProductsService {
     if (dbProducts.some((item) => item.productName === productName)) {
       throw new HttpException(
         {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          status: HttpStatus.CONFLICT,
           error: 'Produto já cadastrado no sistema.',
         },
-        HttpStatus.UNPROCESSABLE_ENTITY,
+        HttpStatus.CONFLICT,
       );
     }
 
