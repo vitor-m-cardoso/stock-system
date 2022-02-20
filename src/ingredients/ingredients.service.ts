@@ -78,9 +78,13 @@ export class IngredientsService {
         success: 'Ingrediente deletado com sucesso.',
       };
     } else {
-      return {
-        erro: 'Ingrediente não existe no sistema.',
-      };
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'Ingrediente não existe no sistema.',
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 }
