@@ -45,10 +45,10 @@ export class IngredientsService {
     if (dbIngredients.some((item) => item.name === name)) {
       throw new HttpException(
         {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          status: HttpStatus.CONFLICT,
           error: 'Ingrediente já cadastrado no sistema.',
         },
-        HttpStatus.UNPROCESSABLE_ENTITY,
+        HttpStatus.CONFLICT,
       );
     }
 
