@@ -415,8 +415,14 @@ Estrutura de diretórios e arquivos:
   ```json
   {
     "status": 404,
-    "error": "Ingrediente não existe no sistema."
+    "error": "Produto não existe no sistema."
   }
   ```
 
 ---
+
+### Funcionalidades que ainda serão desenvolvidas
+
+- Testes unitários com Jest.
+- Objeto que faça referência ao ingrediente com a quantidade que é usado
+- Regra de negócio para validar se o produto pode ou não ser vendido.
