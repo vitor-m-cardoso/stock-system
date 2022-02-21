@@ -16,6 +16,7 @@ import { isValidEmail, isValidUser } from './middlewares/user.middleware';
   ],
   controllers: [UsersController],
   providers: [UsersService],
+  exports: [UsersService],
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

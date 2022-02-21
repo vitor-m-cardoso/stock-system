@@ -16,6 +16,13 @@ export class UsersService {
     return await this.userModel.find().exec();
   }
 
+  // realiza a conexao com o banco de dados para encontrar um usuario utilizando o email
+  async findByEmail(email: string) {
+    const user = await this.userModel.findOne({ email });
+
+    return user;
+  }
+
   async createUser(createUserDto: CreateUserDto) {
     const { email, password, name } = createUserDto;
     const hashedPassword = await encodePassword(password);
