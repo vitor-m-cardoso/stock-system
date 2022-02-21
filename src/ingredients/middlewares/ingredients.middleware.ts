@@ -1,36 +1,35 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Request, NextFunction } from 'express';
+import { isRegisterValid } from '../../products/validations/isRegisterValid.validation';
+
+// função criada para validar se os campos de numbers foram preenchidos corretamente
+async function numbersValidation(quantity: number) {
+  if (quantity < 1 || typeof quantity !== 'number') {
+    throw new HttpException(
+      {
+        status: HttpStatus.CONFLICT,
+        error: 'Erro ao processar os valores, tente novamente.',
+      },
+      HttpStatus.CONFLICT,
+    );
+  }
+}
 
 // função para validar se todos os campos foram preenchidos corretamente
-export function isValidRequest(
+export async function isValidRequest(
   req: Request,
   _res: Response,
   next: NextFunction,
 ) {
-  const { name, measuringUnit, unitPrice } = req.body;
+  const { name, measuringUnit, unitPrice, quantity } = req.body;
 
   // caso algum campo não seja informado, retorna uma exceção
-  if (!name || !measuringUnit || !unitPrice) {
-    throw new HttpException(
-      {
-        status: HttpStatus.BAD_REQUEST,
-        error: 'Todos os campos devem ser preenchidos.',
-      },
-      HttpStatus.BAD_REQUEST,
-    );
-  }
+  await isRegisterValid([name, measuringUnit, unitPrice, quantity]);
 
   // caso seja informado algum valor negativo
   // ou algum input diferente de number, retorna uma exceção
-  if (unitPrice < 0 || typeof unitPrice !== 'number') {
-    throw new HttpException(
-      {
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        error: 'Erro ao processar os valores, tente novamente.',
-      },
-      HttpStatus.UNPROCESSABLE_ENTITY,
-    );
-  }
+  await numbersValidation(unitPrice);
+  await numbersValidation(quantity);
 
   return next();
 }
