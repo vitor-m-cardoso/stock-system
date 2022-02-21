@@ -5,6 +5,7 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from 'src/auth/auth.module';
 
 import { IngredientsController } from './ingredients.controller';
 import { IngredientsService } from './ingredients.service';
@@ -18,6 +19,7 @@ import { Ingredient, IngredientSchema } from './schemas/ingredient.schema';
     MongooseModule.forFeature([
       { name: Ingredient.name, schema: IngredientSchema },
     ]),
+    AuthModule,
   ],
   controllers: [IngredientsController],
   providers: [IngredientsService],
