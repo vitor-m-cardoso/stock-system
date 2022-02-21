@@ -1,10 +1,14 @@
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Product, ProductDocument } from './schemas/product.schema';
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+
+import { isValidId } from './validations/isValidId.validation';
+import { isRegisterValid } from './validations/isRegisterValid.validation';
+import { imageFileFilter } from './validations/imageFileFilter.validation';
 
 @Injectable()
 export class ProductsService {
@@ -13,34 +17,29 @@ export class ProductsService {
     private readonly productModel: Model<ProductDocument>,
   ) {}
 
-  // função criada para validar o ID passado por parâmetro nas requisições
-  async isValidId(id: string) {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          error: 'Por favor, insira um id válido.',
-        },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
-    }
-    return id;
-  }
-
   async findAll(): Promise<Product[]> {
     return await this.productModel.find().exec();
   }
 
   async findById(id: string) {
-    await this.isValidId(id);
+    await isValidId(id);
 
     return await this.productModel.findById(id).exec();
   }
 
   async createProduct(product: CreateProductDto) {
     const createdProduct = new this.productModel(product);
-    const { productName } = createdProduct;
+    const { productName, productImage, productPrice, productIngredients } =
+      createdProduct;
     const dbProducts = await this.findAll();
+
+    // caso algum campo não seja informado, retorna uma exceção
+    await isRegisterValid([
+      productName,
+      productImage,
+      productPrice,
+      productIngredients,
+    ]);
 
     if (dbProducts.some((item) => item.productName === productName)) {
       throw new HttpException(
@@ -52,11 +51,14 @@ export class ProductsService {
       );
     }
 
+    // caso a imagem não esteja no padrão correto, retorna uma exceção
+    await imageFileFilter(productImage);
+
     return await createdProduct.save();
   }
 
   async updateProduct(id: string, updateProduct: UpdateProductDto) {
-    await this.isValidId(id);
+    await isValidId(id);
 
     return await this.productModel.findByIdAndUpdate(
       { _id: id },
@@ -66,7 +68,7 @@ export class ProductsService {
   }
 
   async removeProduct(id: string) {
-    await this.isValidId(id);
+    await isValidId(id);
     const deletedProduct = await this.productModel
       .deleteOne({ _id: id })
       .exec();
