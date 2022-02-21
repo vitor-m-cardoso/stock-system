@@ -10,7 +10,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsService } from './products.service';
@@ -23,26 +22,17 @@ export class ProductsController {
   // criado o interceptor FileInterceptor() para extrair o file da request usando o decorador @UploadedFile().
   // parâmetro 'image' é o que será passado na request(POST) para inserir a imagem
   @Post()
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: 'src/products/uploads',
-        filename: (_req, file, callback) => {
-          callback(null, file.originalname);
-        },
-      }),
-    }),
-  )
+  @UseInterceptors(FileInterceptor('productImage'))
   async create(
     @Body() createProductDto: CreateProductDto,
-    @UploadedFile() image: Express.Multer.File,
+    @UploadedFile() productImage: Express.Multer.File,
   ) {
     const { productName, productPrice, productIngredients } = createProductDto;
     const createNewProduct = {
       productName,
       productPrice,
       productIngredients,
-      productImage: image.originalname,
+      productImage: productImage.originalname,
     };
 
     return await this.productsService.createProduct(createNewProduct);
