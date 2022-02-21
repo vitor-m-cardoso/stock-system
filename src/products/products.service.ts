@@ -9,6 +9,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { isValidId } from './validations/isValidId.validation';
 import { isRegisterValid } from './validations/isRegisterValid.validation';
 import { imageFileFilter } from './validations/imageFileFilter.validation';
+import { quantityValidation } from './validations/quantity.validations';
 
 @Injectable()
 export class ProductsService {
@@ -29,8 +30,13 @@ export class ProductsService {
 
   async createProduct(product: CreateProductDto) {
     const createdProduct = new this.productModel(product);
-    const { productName, productImage, productPrice, productIngredients } =
-      createdProduct;
+    const {
+      productName,
+      productImage,
+      productPrice,
+      productIngredients,
+      quantity,
+    } = createdProduct;
     const dbProducts = await this.findAll();
 
     // caso algum campo não seja informado, retorna uma exceção
@@ -39,8 +45,10 @@ export class ProductsService {
       productImage,
       productPrice,
       productIngredients,
+      quantity,
     ]);
 
+    // verifica se o produto já esta cadastrado no sistema
     if (dbProducts.some((item) => item.productName === productName)) {
       throw new HttpException(
         {
@@ -51,6 +59,8 @@ export class ProductsService {
       );
     }
 
+    // caso não tenha o produto no estoque, retorna uma exceção
+    await quantityValidation(quantity);
     // caso a imagem não esteja no padrão correto, retorna uma exceção
     await imageFileFilter(productImage);
 
