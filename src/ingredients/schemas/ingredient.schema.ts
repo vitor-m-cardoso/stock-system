@@ -15,6 +15,9 @@ export class Ingredient {
 
   @Prop()
   unitPrice: number;
+
+  @Prop()
+  quantity: number;
 }
 
 export const IngredientSchema = SchemaFactory.createForClass(Ingredient);
