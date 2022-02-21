@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { IngredientsModule } from './ingredients/ingredients.module';
 import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
+import { LoginModule } from './login/login.module';
 
 @Module({
   // ConfigModule importado para ser possivel utilizar variáveis de ambiente corretamente
@@ -18,6 +19,7 @@ import { UsersModule } from './users/users.module';
     IngredientsModule,
     ProductsModule,
     UsersModule,
+    LoginModule,
   ],
   controllers: [AppController],
   providers: [AppService],
