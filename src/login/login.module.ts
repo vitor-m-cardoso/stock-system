@@ -11,12 +11,13 @@ import { Login, LoginSchema } from './schemas/login.schema';
 import { isValidLogin } from './middlewares/login.middleware';
 import { isValidEmail } from 'src/users/middlewares/user.middleware';
 import { UsersModule } from 'src/users/users.module';
-import { validateLogin } from './middlewares/validateLogin.middleware';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Login.name, schema: LoginSchema }]),
     UsersModule,
+    AuthModule,
   ],
   controllers: [LoginController],
   providers: [LoginService],
@@ -24,7 +25,7 @@ import { validateLogin } from './middlewares/validateLogin.middleware';
 export class LoginModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(isValidLogin, isValidEmail, validateLogin)
+      .apply(isValidLogin, isValidEmail)
       .forRoutes({ path: '/login', method: RequestMethod.POST });
   }
 }
