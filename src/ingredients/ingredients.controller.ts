@@ -6,7 +6,9 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/strategy/jwt-auth.guard';
 import { CreateIngredientDto } from './dto/create-ingredient.dto';
 import { UpdateIngredientDto } from './dto/update-user-dto';
 import { IngredientsService } from './ingredients.service';
@@ -16,6 +18,7 @@ import { Ingredient } from './schemas/ingredient.schema';
 export class IngredientsController {
   constructor(private ingredientsService: IngredientsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createIngredientDto: CreateIngredientDto) {
     return this.ingredientsService.createIngredient(createIngredientDto);
@@ -31,6 +34,7 @@ export class IngredientsController {
     return await this.ingredientsService.findById(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   async updateIngedient(
     @Param('id') id: string,
@@ -39,6 +43,7 @@ export class IngredientsController {
     return this.ingredientsService.updateIngredient(id, updateIngedientDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async removeIngredient(@Param('id') id: string) {
     return await this.ingredientsService.removeIngredient(id);
