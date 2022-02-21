@@ -5,7 +5,6 @@ export type IngredientDocument = Ingredient & Document;
 
 // o decorador '@Schema' marca uma classe como uma definição de esquema.
 // Ele mapeia a class para uma coleção do MongoDB com o mesmo nome, mas com um 's' no final
-// { required: true }
 @Schema()
 export class Ingredient {
   @Prop()
@@ -16,6 +15,9 @@ export class Ingredient {
 
   @Prop()
   unitPrice: number;
+
+  @Prop()
+  quantity: number;
 }
 
 export const IngredientSchema = SchemaFactory.createForClass(Ingredient);
