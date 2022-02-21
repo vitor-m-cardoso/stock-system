@@ -27,12 +27,14 @@ export class IngredientsController {
     return this.ingredientsService.createIngredient(createIngredientDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   @Roles(Role.ADMIN, Role.USER)
   async findAll(): Promise<Ingredient[]> {
     return this.ingredientsService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   @Roles(Role.ADMIN, Role.USER)
   async findById(@Param('id') id: string) {
