@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from 'src/auth/auth.module';
+import { RolesGuard } from 'src/utils/roles/roles.guard';
 
 import { IngredientsController } from './ingredients.controller';
 import { IngredientsService } from './ingredients.service';
@@ -20,6 +21,7 @@ import { Ingredient, IngredientSchema } from './schemas/ingredient.schema';
       { name: Ingredient.name, schema: IngredientSchema },
     ]),
     AuthModule,
+    RolesGuard,
   ],
   controllers: [IngredientsController],
   providers: [IngredientsService],

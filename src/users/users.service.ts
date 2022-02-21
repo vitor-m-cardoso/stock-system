@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { CreateUserDto } from './dto/user.dto';
 import { encodePassword } from '../utils/bcrypt';
+import { isValidId } from 'src/products/validations/isValidId.validation';
 
 @Injectable()
 export class UsersService {
@@ -24,13 +25,14 @@ export class UsersService {
   }
 
   async createUser(createUserDto: CreateUserDto) {
-    const { email, password, name } = createUserDto;
+    const { email, password, name, roles } = createUserDto;
     const hashedPassword = await encodePassword(password);
 
     const user = {
       email,
       name,
       password: hashedPassword,
+      roles,
     };
 
     const createdUser = new this.userModel(user);
@@ -48,5 +50,25 @@ export class UsersService {
     }
 
     return await createdUser.save();
+  }
+
+  async removeUser(id: string) {
+    await isValidId(id);
+    const deletedProduct = await this.userModel.deleteOne({ _id: id }).exec();
+    const { deletedCount } = deletedProduct;
+
+    if (deletedCount === 1) {
+      return {
+        success: 'Usuário deletado com sucesso.',
+      };
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'Usuário não existe no sistema.',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
   }
 }

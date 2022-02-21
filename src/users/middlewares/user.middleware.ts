@@ -2,10 +2,10 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { Request, NextFunction } from 'express';
 
 export function isValidUser(req: Request, _res: Response, next: NextFunction) {
-  const { name, email, password } = req.body;
+  const { name, email, password, roles } = req.body;
 
   // caso algum campo não seja informado, retorna uma exceção
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !roles) {
     throw new HttpException(
       {
         status: HttpStatus.BAD_REQUEST,
