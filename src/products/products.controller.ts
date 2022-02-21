@@ -30,12 +30,14 @@ export class ProductsController {
     @Body() createProductDto: CreateProductDto,
     @UploadedFile() productImage: Express.Multer.File,
   ) {
-    const { productName, productPrice, productIngredients } = createProductDto;
+    const { productName, productPrice, productIngredients, quantity } =
+      createProductDto;
     const createNewProduct = {
       productName,
       productPrice,
       productIngredients,
       productImage: productImage.originalname,
+      quantity,
     };
 
     return await this.productsService.createProduct(createNewProduct);

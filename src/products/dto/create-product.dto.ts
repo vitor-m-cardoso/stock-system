@@ -3,4 +3,5 @@ export class CreateProductDto {
   productImage: string;
   productPrice: number;
   productIngredients: string;
+  quantity: number;
 }
