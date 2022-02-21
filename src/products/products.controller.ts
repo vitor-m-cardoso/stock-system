@@ -12,6 +12,8 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/strategy/jwt-auth.guard';
+import { Roles } from 'src/utils/roles/roles.decorator';
+import { Role } from 'src/utils/roles/roles.enum';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsService } from './products.service';
@@ -25,6 +27,7 @@ export class ProductsController {
   // parâmetro 'image' é o que será passado na request(POST) para inserir a imagem
   @UseGuards(JwtAuthGuard)
   @Post()
+  @Roles(Role.ADMIN)
   @UseInterceptors(FileInterceptor('productImage'))
   async create(
     @Body() createProductDto: CreateProductDto,
@@ -44,17 +47,20 @@ export class ProductsController {
   }
 
   @Get()
+  @Roles(Role.ADMIN, Role.USER)
   async findAll(): Promise<Product[]> {
     return this.productsService.findAll();
   }
 
   @Get(':id')
+  @Roles(Role.ADMIN, Role.USER)
   async findById(@Param('id') id: string) {
     return await this.productsService.findById(id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
+  @Roles(Role.ADMIN)
   async updateProduct(
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -64,6 +70,7 @@ export class ProductsController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
+  @Roles(Role.ADMIN)
   async removeProduct(@Param('id') id: string) {
     return await this.productsService.removeProduct(id);
   }
