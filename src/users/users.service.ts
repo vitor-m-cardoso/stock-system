@@ -17,7 +17,7 @@ export class UsersService {
   }
 
   // realiza a conexao com o banco de dados para encontrar um usuario utilizando o email
-  async findByEmail(email: string) {
+  async findOne(email: string): Promise<User | undefined> {
     const user = await this.userModel.findOne({ email });
 
     return user;
