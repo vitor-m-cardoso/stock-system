@@ -1,32 +1,28 @@
 # Boas vindas ao repositório do projeto Stock System!
 
----
+  - O foco do projeto foi desenvolver uma REST API para controle de estoque utilizando Nest.js e Typescript;
+  - O sistema armazena todos os registros utilizando MongoDB.
 
-  - REST API para controle de estoque desenvolvida utilizando Nest.js e Typescript;
-  - Armazena todos os registros utilizando MongoDB.
+## Antes de começar o desenvolvimento:
 
----
-
-### Antes de começar o desenvolvimento:
-
-1. Clone o repositório
+1. Clone o repositório:
   * `git@github.com:vitor-m-cardoso/stock-system.git`
   * Entre na pasta do repositório que você acabou de clonar:
     * `cd stock-system`
 
-2. Instalar as dependências [**Se houver**]
+2. Instalar as dependências [**Se houver**]:
   * `npm install`
   * ou
   * `yarn install`
 
 ---
 
-### Estrutura
+## Estrutura de pastas e arquivos:
 
-Estrutura de diretórios e arquivos:
+<details>
+  <summary><strong>O projeto está organizado no seguinte formato:</strong></summary>
 
-```
-.
+```bash
 ├── README.md
 ├── src
 │   ├── auth
@@ -93,12 +89,17 @@ Estrutura de diretórios e arquivos:
 ├── app.service.ts
 └── main.ts
 ```
+</details>
 
----
+## Endpoints que a aplicação possui:
 
-### A aplicação tem o endpoint POST `/users`
+### Usuários:
 
-- Este endpoint deve ser capaz de adicionar um novo usuário no banco de dados;
+<details>
+
+  <summary><strong>A aplicação contém o endpoint POST `/users`:</strong></summary>
+
+  - Este endpoint deve ser capaz de adicionar um novo usuário no banco de dados;
 
 - O corpo da requisição deve ter o seguinte formato:
 
@@ -137,15 +138,19 @@ Estrutura de diretórios e arquivos:
   }
   ```
 
----
+</details>
 
-### A aplicação tem o endpoint GET `/users`
+<details>
 
-- Este endpoint retorna todos os usuários cadastrados no banco de dados;
+  <summary><strong>A aplicação contém o endpoint GET `/users`:</strong></summary>
 
----
+ - Este endpoint retorna todos os usuários cadastrados no banco de dados;
 
-### A aplicação tem o endpoint DELETE `/users/:id`
+</details>
+
+<details>
+
+  <summary><strong>A aplicação contém o endpoint DELETE `/users/:id`:</strong></summary>
 
 - Deleta um usuário com o ID especificado na URL;
 
@@ -155,7 +160,7 @@ Estrutura de diretórios e arquivos:
 - A resposta deve retornar no seguinte formato:
   ```json
   {
-	  "success": "Usuário deletado com sucesso."
+    "success": "Usuário deletado com sucesso."
   }
   ```
 
@@ -167,11 +172,15 @@ Estrutura de diretórios e arquivos:
   }
   ```
 
---- 
+</details>
 
-### A aplicação tem o endpoint POST `/login`
+### Login:
 
-- Este endpoint retorna um token de acesso para um usuário cadastrado;
+<details>
+
+  <summary><strong>A aplicação contém o endpoint POST `/login`:</strong></summary>
+
+ - Este endpoint retorna um token de acesso para um usuário cadastrado;
 
 - O corpo da requisição deve ter o seguinte formato:
   ```json
@@ -181,16 +190,18 @@ Estrutura de diretórios e arquivos:
   }
   ```
 
-- Se os campos estiverem corretos, a resposta devera ser um token JWT, no seguinte formato:
+- Se os campos estiverem corretos, a resposta deverá ser um token JWT, no seguinte formato:
   ```json
-    {
-      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RpbmdlbWFpbEBleGFtcGxlLmNvbSIsInN1YiI6IjYxYWJlYzRkMGUyMGU3Y2FjODZiMWMyMSIsImlhdCI6MTYzODcyMjkzOSwiZXhwIjoxNjM4NzQ4MTM5fQ.zaoUERfXIVMY-8RUv-PosFZIBnjyGPGkoPgKcebEJg0"
-    }
+  {
+    "access_token": "eyJhbGciOFDSFzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RpbmdlbWFpbEBleGFtcGxlLmNvbSIsInN1YiI6IjYxYWJlYzRkMGUyMGU3Y2FjODZiMWMyMSIsImlhdCI6MTYzODcyMjkzOSwiZXhwIjoxNjM4NzQ4MTM5fQ.zaoUERfXIVMY-8RUv-PosFZIBnjyGPGkoPgKcebEJg0"
+  }
   ```
 
----
+</details>
 
-## A partir de agora, praticamente todas as rotas precisam do token JWT para realizar as requisições, caso o token não seja informado, os endpoints retornarão o seguinte status:
+## Atenção:
+
+### À partir de agora, todas as rotas precisam do token JWT para realizar as requisições, caso o token não seja informado, os endpoints retornarão o seguinte status:
   ```json
   {
     "statusCode": 401,
@@ -198,25 +209,29 @@ Estrutura de diretórios e arquivos:
   }
   ```
 
-  - O token deve ser utilizado como `Bearer token`
+> O token deve ser utilizado como `Bearer token`.
 
 ---
 
-### A aplicação tem o endpoint POST `/ingredients`
+### Ingredientes:
 
-- Este endpoint cadastra um novo ingrediente;
+<details>
 
-- O corpo da requisição deve ter o seguinte formato:
+  <summary><strong>A aplicação contém o endpoint POST `/ingredients`:</strong></summary>
+
+- Esse endpoint cadastra um novo ingrediente;
+
+- O corpo da requisição deve ser enviado em um formato parecido com este:
   ```json
-    {
-      	"name": "Leite em pó",
-        "measuringUnit": "250 g",
-        "unitPrice": 10,
-        "quantity": 10
-    }
+  {
+    "name": "Leite em pó",
+    "measuringUnit": "250 g",
+    "unitPrice": 10,
+    "quantity": 10,
+  }
   ```
 
-- Se os campos estiverem corretos, a resposta devera retornar no seguinte formato:
+- Se os campos estiverem corretos, a resposta retornará em um formato parecido com este:
   ```json
   {
     "quantity": 10,
@@ -224,26 +239,30 @@ Estrutura de diretórios e arquivos:
     "measuringUnit": "250 g",
     "name": "Leite em pó",
     "_id": "6213d22e5718200872a83281",
-    "__v": 0
   }
   ```
 
----
+</details>
 
-### A aplicação tem o endpoint GET `/ingredients`
+<details>
 
-- Este endpoint retorna todos os ingredientes cadastratos;
+  <summary><strong>A aplicação contém o endpoint GET `/ingredients`:</strong></summary>
 
----
+- Este endpoint retorna todos os ingredientes cadastratos no sistema.
 
-### A aplicação tem o endpoint GET `/ingredients/:id`
+</details>
 
-- Retorna um ingrediente com o ID especificado na URL;
+<details>
+
+  <summary><strong>A aplicação contém o endpoint GET `/ingredients/:id`:</strong></summary>
+
+- Busca um ingrediente pelo seu ID cadastrado no sistema;
+  - O ID deve ser especificado na URL.
 
 - Exemplo de requisição:
     - `http://localhost:3000/ingredients/6213d22e5718200872a83281`
 
-- A resposta deve retornar no seguinte formato:
+- A resposta da requisição deve estar em um formato parecido com este:
   ```json
   {
     "_id": "6213d22e5718200872a83281",
@@ -251,25 +270,29 @@ Estrutura de diretórios e arquivos:
     "unitPrice": 10,
     "measuringUnit": "250 g",
     "name": "Leite em pó",
-    "__v": 0
   }
   ```
 
----
+</details>
 
-### A aplicação tem o endpoint PUT `/ingredients/:id`
+<details>
 
-- Altera as informações de um ingrediente com o ID especificado na URL;
+  <summary><strong>A aplicação contém o endpoint PUT `/ingredients/:id`:</strong></summary>
+
+- Altera as informações de um ingrediente pelo seu ID;
+  - O ID deve serespecificado na URL da requisição.
 
 - Exemplo de requisição:
-    - `http://localhost:3000/ingredients/6213d22e5718200872a83281`
+    - `http://localhost:3000/ingredients/6213d22e5718200872a83281`;
+
+- Alterando a seguinte informação:
     ```json
     {
       "measuringUnit": "750 g"
     }
     ```
 
-- A resposta deve retornar no seguinte formato:
+- A resposta deve retornar em um formato parecido com este:
   ```json
   {
     "_id": "6213d22e5718200872a83281",
@@ -277,29 +300,29 @@ Estrutura de diretórios e arquivos:
     "unitPrice": 10,
     "measuringUnit": "750 g",
     "name": "Leite em pó",
-    "__v": 0
   }
   ```
 
----
+</details>
 
----
+<details>
 
-### A aplicação tem o endpoint DELETE `/ingredients/:id`
+  <summary><strong>A aplicação contém o endpoint DELETE `/ingredients/:id`:</strong></summary>
 
-- Deleta um ingrediente com o ID especificado na URL;
+- Deleta um ingrediente pelo seu ID;
+  - O ID deve ser especificado na URL.
 
 - Exemplo de requisição:
-    - `http://localhost:3000/ingredients/6213d22e5718200872a83281`
+    - `http://localhost:3000/ingredients/6213d22e5718200872a83281`;
 
-- A resposta deve retornar no seguinte formato:
+- A resposta deve retornar em um formato parecido com este:
   ```json
   {
-	  "success": "Ingrediente deletado com sucesso."
+    "success": "Ingrediente deletado com sucesso."
   }
   ```
 
-- Caso o ingrediente nao exista no sistema, a resposta retorna no seguinte formato:
+- Caso o ingrediente não exista no sistema, a resposta retorna em um formato parecido com este:
   ```json
   {
     "status": 404,
@@ -307,25 +330,29 @@ Estrutura de diretórios e arquivos:
   }
   ```
 
----
+</details>
 
-### A aplicação tem o endpoint POST `/products`
+### Produtos:
 
-- Este endpoint cadastra um novo produto;
+<details>
 
-- O corpo da requisição deve ter o seguinte formato:
+  <summary><strong>A aplicação contém o endpoint POST `/products`:</strong></summary>
+
+- Este endpoint é utilizado para o cadastro de um novo produto;
+
+- O corpo da requisição deve estar em um formato parecido com este:
   ```json
-    {
-      	"productName": "Capuccino",
-        "productIngredients": "leite em pó, chocolate em pó...",
-        "productPrice": 15,
-        "productImage": "capuccino.png",
-        "quantity": 50
-    }
+  {
+    "productName": "Capuccino",
+    "productIngredients": "leite em pó, chocolate em pó...",
+    "productPrice": 15,
+    "productImage": "capuccino.png",
+    "quantity": 50
+  }
   ```
-  _A requisição é feita no formato `Multipart Form` e só serão aceitas imagens no formato `PNG` e `JPG`_
+> _A requisição é feita no formato `Multipart Form` e só serão aceitas imagens no formato `PNG` e `JPG`._
 
-- Se os campos estiverem corretos, a resposta devera retornar no seguinte formato:
+- Caso todos os campos estejam corretos, a resposta deve estar em um formato parecido com este:
   ```json
   {
     "quantity": 50,
@@ -334,26 +361,30 @@ Estrutura de diretórios e arquivos:
     "productImage": "capuccino.png",
     "productName": "Capuccino",
     "_id": "6213d4cf5718200872a8328b",
-    "__v": 0
   }
   ```
+ 
+</details>
 
----
+<details>
 
-### A aplicação tem o endpoint GET `/products`
+  <summary><strong>A aplicação contém o endpoint GET `/products`:</strong></summary>
 
-- Este endpoint retorna todos os produtos cadastratos;
+- Este endpoint tem a função de retornar todos os produtos cadastratos no sistema.
+ 
+</details>
 
----
+<details>
 
-### A aplicação tem o endpoint GET `/products/:id`
+  <summary><strong>A aplicação contém o endpoint GET `/products/:id`:</strong></summary>
 
-- Retorna um produto com o ID especificado na URL;
+- Busca um produto pelo seu ID;
+  - O ID deverá ser especificado na URL.
 
 - Exemplo de requisição:
-    - `http://localhost:3000/products/6213d4cf5718200872a8328b`
+    - `http://localhost:3000/products/6213d4cf5718200872a8328b`;
 
-- A resposta deve retornar no seguinte formato:
+- A resposta deve estar em um formato parecido com este:
   ```json
   {
     "_id": "6213d4cf5718200872a8328b",
@@ -362,25 +393,29 @@ Estrutura de diretórios e arquivos:
     "productPrice": 15,
     "productImage": "capuccino.png",
     "productName": "Capuccino",
-    "__v": 0
+  }
+  ```
+ 
+</details>
+
+<details>
+
+  <summary><strong>A aplicação contém o endpoint PUT `/products/:id`:</strong></summary>
+
+- Altera as informações de um produto pelo seu ID;
+  - O ID deverá ser especificado na URL.
+
+- Exemplo de requisição:
+    - `http://localhost:3000/ingredients/6213d22e5718200872a83281`;
+ 
+- Alterando as informações do preço do produto: 
+  ```json
+  {
+  "productPrice": 20
   }
   ```
 
----
-
-### A aplicação tem o endpoint PUT `/products/:id`
-
-- Altera as informações de um produto com o ID especificado na URL;
-
-- Exemplo de requisição:
-    - `http://localhost:3000/ingredients/6213d22e5718200872a83281`
-    ```json
-    {
-      "productPrice": 20
-    }
-    ```
-
-- A resposta deve retornar no seguinte formato:
+- A resposta deve retornar em um formato parecido com este:
   ```json
   {
     "_id": "6213d4cf5718200872a8328b",
@@ -389,15 +424,14 @@ Estrutura de diretórios e arquivos:
     "productPrice": 20,
     "productImage": "githubIcon.png",
     "productName": "Capuccino",
-    "__v": 0
   }
   ```
+ 
+</details>
 
----
+<details>
 
----
-
-### A aplicação tem o endpoint DELETE `/products/:id`
+  <summary><strong>A aplicação contém o endpoint DELETE `/products/:id`:</strong></summary>
 
 - Deleta um produto com o ID especificado na URL;
 
@@ -407,22 +441,28 @@ Estrutura de diretórios e arquivos:
 - A resposta deve retornar no seguinte formato:
   ```json
   {
-	  "success": "Produto deletado com sucesso."
+    "success": "Produto deletado com sucesso."
   }
   ```
 
-- Caso o ingrediente nao exista no sistema, a resposta retorna no seguinte formato:
+- Caso o ingrediente não exista no sistema, a resposta retorna no seguinte formato:
   ```json
   {
     "status": 404,
     "error": "Produto não existe no sistema."
   }
   ```
+ 
+</details>
 
----
+### Em desenvolvimento:
 
-### Funcionalidades que ainda serão desenvolvidas
+<details>
 
-- Testes unitários com Jest.
-- Objeto que faça referência ao ingrediente com a quantidade que é usado
+  <summary><strong>Funcionalidades que ainda serão implementadas:</strong></summary>
+
+- Testes unitários com Jest;
+- Objeto que faça referência à um ingrediente e a quantidade em que esse ingrediente é utilizado;
 - Regra de negócio para validar se o produto pode ou não ser vendido.
+ 
+</details>
