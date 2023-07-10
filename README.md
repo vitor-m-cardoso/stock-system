@@ -2,8 +2,8 @@
 
 ---
 
-  - REST API para controle de estoque (utilizando Nestjs e Typescript);
-  - Armazena os registros utilizando o MongoDB.
+  - REST API para controle de estoque desenvolvida utilizando Nest.js e Typescript;
+  - Armazena todos os registros utilizando MongoDB.
 
 ---
 
